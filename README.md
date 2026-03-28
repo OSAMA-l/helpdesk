@@ -2,7 +2,7 @@
 
 **IT Support Ticketing System**
 
-> **Note:** This is another re-upload.
+> **Note:** this is another re-upload.
 
 A simple web-based help desk app I built for managing IT support tickets. Users can submit tickets, IT staff can track them, update statuses, add responses, and filter by priority or status. Everything runs locally with no external database needed - just Python and Flask.
 
