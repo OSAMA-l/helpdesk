@@ -2,9 +2,9 @@
 
 **IT Support Ticketing System**
 
-> **Note:** this is another re-upload.
+> **Note:** This is a re-upload. Cleaned up and pushed again.
 
-A simple web-based help desk app I built for managing IT support tickets. Users can submit tickets, IT staff can track them, update statuses, add responses, and filter by priority or status. Everything runs locally with no external database needed - just Python and Flask.
+A simple web-based help desk app I built for managing IT support tickets. Users can submit tickets, IT staff can track them, update statuses, add responses, and filter by priority or status. Everything runs locally with no external database needed — just Python and Flask.
 
 Built this to learn Flask and to have something practical to show for IT support workflows.
 
@@ -18,16 +18,16 @@ Built this to learn Flask and to have something practical to show for IT support
 - **Ticket detail view** with full conversation history
 - **Update status** (Open → In Progress → Resolved → Closed)
 - **Update priority** (Low / Medium / High / Critical)
-- **Add responses** to tickets - like an internal chat thread
+- **Add responses** to tickets — like an internal chat thread
 - **Auto-generated ticket IDs** (HD-0001, HD-0002, etc.)
-- **SQLite database** - no setup, no server, it just works
+- **SQLite database** — no setup, no server, it just works
 
 ---
 
 ## Prerequisites
 
-- **Python 3.8+** - Download from [python.org](https://www.python.org/downloads/)
-- **Git** (optional) - Download from [git-scm.com](https://git-scm.com/downloads)
+- **Python 3.8+** — Download from [python.org](https://www.python.org/downloads/)
+- **Git** (optional) — Download from [git-scm.com](https://git-scm.com/downloads)
 
 ## Getting Started
 
@@ -50,7 +50,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Open your browser and go to **http://127.0.0.1:5000** - that's it, you're in.
+Open your browser and go to **http://127.0.0.1:5000** — that's it, you're in.
 
 ---
 
@@ -71,7 +71,7 @@ View the full ticket with conversation history, status/priority controls, and a 
 
 ```
 helpdesk/
-├── app.py              # Main Flask app - all the routes and logic
+├── app.py              # Main Flask app — all the routes and logic
 ├── requirements.txt    # Just Flask
 ├── helpdesk.db         # SQLite database (auto-created on first run)
 ├── templates/          # HTML templates
@@ -93,13 +93,13 @@ helpdesk/
 
 The app uses **Flask** (a Python web framework) to handle HTTP requests and render HTML pages. Data is stored in **SQLite**, which is just a single file (`helpdesk.db`) that gets created automatically when you first run the app. No database server to install or configure.
 
-When someone submits a ticket, it gets saved to the database with a unique ID. IT staff can then view it, change its status, adjust priority, and add responses - all through the browser.
+When someone submits a ticket, it gets saved to the database with a unique ID. IT staff can then view it, change its status, adjust priority, and add responses — all through the browser.
 
 Key concepts used:
-- **Routes** - URL paths mapped to Python functions (e.g., `/tickets/new` → `new_ticket()`)
-- **Templates** - HTML files with dynamic data using Jinja2 (Flask's template engine)
-- **SQLite** - Lightweight database stored as a single file
-- **Forms** - HTML forms that send data to the server via POST requests
+- **Routes** — URL paths mapped to Python functions (e.g., `/tickets/new` → `new_ticket()`)
+- **Templates** — HTML files with dynamic data using Jinja2 (Flask's template engine)
+- **SQLite** — Lightweight database stored as a single file
+- **Forms** — HTML forms that send data to the server via POST requests
 
 ---
 
@@ -116,16 +116,16 @@ Things I might add later:
 
 ## Built With
 
-- **Python 3** + **Flask** - Web framework
-- **SQLite** - Database (built into Python, no install needed)
-- **Jinja2** - HTML templating (comes with Flask)
-- **CSS** - Custom styling, no frameworks
+- **Python 3** + **Flask** — Web framework
+- **SQLite** — Database (built into Python, no install needed)
+- **Jinja2** — HTML templating (comes with Flask)
+- **CSS** — Custom styling, no frameworks
 
 ---
 
 ## License
 
-MIT - do whatever you want with it.
+MIT — do whatever you want with it.
 
 ---
 

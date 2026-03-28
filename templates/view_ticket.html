@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}{{ ticket['ticket_id'] }} - HelpDesk{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <a href="{{ url_for('tickets') }}" class="back-link">← All Tickets</a>
+        <h1>{{ ticket['ticket_id'] }}: {{ ticket['subject'] }}</h1>
+    </div>
+</div>
+
+<div class="ticket-detail-grid">
+    <!-- Main Content -->
+    <div class="ticket-main">
+        <!-- Original Ticket -->
+        <div class="card">
+            <div class="card-header">
+                <strong>{{ ticket['name'] }}</strong>
+                <span class="ticket-time">{{ ticket['created_at']|timeago }}</span>
+            </div>
+            <div class="card-body">
+                <p class="ticket-description">{{ ticket['description'] }}</p>
+            </div>
+        </div>
+
+        <!-- Responses -->
+        {% if responses %}
+        <div class="responses-section">
+            <h3>Activity</h3>
+            {% for response in responses %}
+            <div class="response {% if response['author'] == 'System' %}response-system{% endif %}">
+                <div class="response-header">
+                    <strong>{{ response['author'] }}</strong>
+                    <span class="ticket-time">{{ response['created_at']|timeago }}</span>
+                </div>
+                <p>{{ response['message'] }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Add Response -->
+        {% if ticket['status'] != 'Closed' %}
+        <div class="card">
+            <div class="card-header">
+                <strong>Add Response</strong>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('respond_ticket', ticket_id=ticket['ticket_id']) }}">
+                    <div class="form-group">
+                        <label for="author">Your Name</label>
+                        <input type="text" id="author" name="author" required placeholder="e.g. IT Support">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" required placeholder="Type your response..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Response</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="ticket-sidebar">
+        <div class="card">
+            <div class="card-header">
+                <strong>Ticket Details</strong>
+            </div>
+            <div class="card-body sidebar-details">
+                <div class="detail-row">
+                    <span class="detail-label">Status</span>
+                    <span class="badge badge-{{ ticket['status']|status_color }}">{{ ticket['status'] }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Priority</span>
+                    <span class="badge badge-{{ ticket['priority']|priority_color }}">{{ ticket['priority'] }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Category</span>
+                    <span>{{ ticket['category'] }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Department</span>
+                    <span>{{ ticket['department'] }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Submitted by</span>
+                    <span>{{ ticket['name'] }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Email</span>
+                    <span>{{ ticket['email'] }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Created</span>
+                    <span>{{ ticket['created_at']|timeago }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Updated</span>
+                    <span>{{ ticket['updated_at']|timeago }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        {% if ticket['status'] != 'Closed' %}
+        <div class="card">
+            <div class="card-header">
+                <strong>Actions</strong>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('update_status', ticket_id=ticket['ticket_id']) }}" class="action-form">
+                    <label>Update Status</label>
+                    <select name="status">
+                        {% for s in ['Open', 'In Progress', 'Resolved', 'Closed'] %}
+                        <option value="{{ s }}" {% if ticket['status'] == s %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-secondary btn-small">Update</button>
+                </form>
+
+                <form method="POST" action="{{ url_for('update_priority', ticket_id=ticket['ticket_id']) }}" class="action-form">
+                    <label>Update Priority</label>
+                    <select name="priority">
+                        {% for p in ['Low', 'Medium', 'High', 'Critical'] %}
+                        <option value="{{ p }}" {% if ticket['priority'] == p %}selected{% endif %}>{{ p }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-secondary btn-small">Update</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}All Tickets - HelpDesk{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>All Tickets</h1>
+    <a href="{{ url_for('new_ticket') }}" class="btn btn-primary">+ New Ticket</a>
+</div>
+
+<!-- Filters -->
+<div class="filters">
+    <form method="GET" action="{{ url_for('tickets') }}" class="filter-form">
+        <div class="filter-group">
+            <label>Status</label>
+            <select name="status" onchange="this.form.submit()">
+                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All Statuses</option>
+                <option value="Open" {% if status_filter == 'Open' %}selected{% endif %}>Open</option>
+                <option value="In Progress" {% if status_filter == 'In Progress' %}selected{% endif %}>In Progress</option>
+                <option value="Resolved" {% if status_filter == 'Resolved' %}selected{% endif %}>Resolved</option>
+                <option value="Closed" {% if status_filter == 'Closed' %}selected{% endif %}>Closed</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Priority</label>
+            <select name="priority" onchange="this.form.submit()">
+                <option value="all" {% if priority_filter == 'all' %}selected{% endif %}>All Priorities</option>
+                <option value="Critical" {% if priority_filter == 'Critical' %}selected{% endif %}>Critical</option>
+                <option value="High" {% if priority_filter == 'High' %}selected{% endif %}>High</option>
+                <option value="Medium" {% if priority_filter == 'Medium' %}selected{% endif %}>Medium</option>
+                <option value="Low" {% if priority_filter == 'Low' %}selected{% endif %}>Low</option>
+            </select>
+        </div>
+        <div class="filter-group filter-search">
+            <label>Search</label>
+            <input type="text" name="search" value="{{ search }}" placeholder="Search tickets...">
+        </div>
+        <button type="submit" class="btn btn-secondary">Filter</button>
+    </form>
+</div>
+
+<!-- Ticket List -->
+{% if tickets %}
+<div class="ticket-list">
+    {% for ticket in tickets %}
+    <a href="{{ url_for('view_ticket', ticket_id=ticket['ticket_id']) }}" class="ticket-row">
+        <div class="ticket-row-left">
+            <span class="ticket-id">{{ ticket['ticket_id'] }}</span>
+            <div class="ticket-info">
+                <span class="ticket-subject">{{ ticket['subject'] }}</span>
+                <span class="ticket-meta">{{ ticket['name'] }} · {{ ticket['department'] }} · {{ ticket['category'] }}</span>
+            </div>
+        </div>
+        <div class="ticket-row-right">
+            <span class="badge badge-{{ ticket['priority']|priority_color }}">{{ ticket['priority'] }}</span>
+            <span class="badge badge-{{ ticket['status']|status_color }}">{{ ticket['status'] }}</span>
+            <span class="ticket-time">{{ ticket['created_at']|timeago }}</span>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+<p class="results-count">{{ tickets|length }} ticket(s) found</p>
+{% else %}
+<div class="empty-state">
+    <p>No tickets match your filters.</p>
+</div>
+{% endif %}
+{% endblock %}
