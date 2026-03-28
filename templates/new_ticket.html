@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}New Ticket — HelpDesk{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Submit a Ticket</h1>
+</div>
+
+<div class="form-card">
+    <form method="POST" action="{{ url_for('new_ticket') }}">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name">Your Name <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required placeholder="e.g. Ahmed Mohammed">
+            </div>
+            <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required placeholder="e.g. ahmed@company.com">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="department">Department</label>
+                <select id="department" name="department">
+                    <option value="General">General</option>
+                    <option value="IT">IT</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Management">Management</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="General">General</option>
+                    <option value="Hardware">Hardware Issue</option>
+                    <option value="Software">Software Issue</option>
+                    <option value="Network">Network Issue</option>
+                    <option value="Email">Email Issue</option>
+                    <option value="Access">Access Request</option>
+                    <option value="New Equipment">New Equipment</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <select id="priority" name="priority">
+                    <option value="Low">Low — Not urgent</option>
+                    <option value="Medium" selected>Medium — Normal request</option>
+                    <option value="High">High — Affecting work</option>
+                    <option value="Critical">Critical — System down</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Subject <span class="required">*</span></label>
+            <input type="text" id="subject" name="subject" required placeholder="Brief description of the issue">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description <span class="required">*</span></label>
+            <textarea id="description" name="description" rows="6" required placeholder="Please describe the issue in detail. Include any error messages, steps to reproduce, and what you've already tried."></textarea>
+        </div>
+
+        <div class="form-actions">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Submit Ticket</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

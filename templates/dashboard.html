@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — HelpDesk{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Dashboard</h1>
+    <a href="{{ url_for('new_ticket') }}" class="btn btn-primary">+ New Ticket</a>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ stats['Total'] }}</div>
+        <div class="stat-label">Total Tickets</div>
+    </div>
+    <div class="stat-card stat-blue">
+        <div class="stat-number">{{ stats['Open'] }}</div>
+        <div class="stat-label">Open</div>
+    </div>
+    <div class="stat-card stat-orange">
+        <div class="stat-number">{{ stats['In Progress'] }}</div>
+        <div class="stat-label">In Progress</div>
+    </div>
+    <div class="stat-card stat-green">
+        <div class="stat-number">{{ stats['Resolved'] }}</div>
+        <div class="stat-label">Resolved</div>
+    </div>
+</div>
+
+<!-- Priority Breakdown -->
+<div class="section">
+    <h2>Open by Priority</h2>
+    <div class="priority-bar">
+        {% for priority in ['Critical', 'High', 'Medium', 'Low'] %}
+        <div class="priority-item">
+            <span class="badge badge-{{ priority|priority_color }}">{{ priority }}</span>
+            <span class="priority-count">{{ priority_stats[priority] }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Recent Tickets -->
+<div class="section">
+    <div class="section-header">
+        <h2>Recent Tickets</h2>
+        <a href="{{ url_for('tickets') }}" class="link">View all →</a>
+    </div>
+
+    {% if recent %}
+    <div class="ticket-list">
+        {% for ticket in recent %}
+        <a href="{{ url_for('view_ticket', ticket_id=ticket['ticket_id']) }}" class="ticket-row">
+            <div class="ticket-row-left">
+                <span class="ticket-id">{{ ticket['ticket_id'] }}</span>
+                <span class="ticket-subject">{{ ticket['subject'] }}</span>
+            </div>
+            <div class="ticket-row-right">
+                <span class="badge badge-{{ ticket['priority']|priority_color }}">{{ ticket['priority'] }}</span>
+                <span class="badge badge-{{ ticket['status']|status_color }}">{{ ticket['status'] }}</span>
+                <span class="ticket-time">{{ ticket['created_at']|timeago }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>No tickets yet. <a href="{{ url_for('new_ticket') }}">Create your first ticket</a>.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
